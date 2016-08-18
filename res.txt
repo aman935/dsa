@@ -1,5 +1,5 @@
-Time taken in part A: 14.935667
+Time taken in part A: 0.014462
 
-Time taken for part C:0.003493
+Time taken for part C:0.001924
 
-Optimum Threshold is of :0
+Optimum Threshold is of :1

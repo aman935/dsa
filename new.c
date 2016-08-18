@@ -14,17 +14,17 @@ void which_file(int *,int *,char *);
 int *new_element(int, int*);
 
 int main(int argc,char *argv[]){
-  clock_t start,end;
   unsigned long long int countA=0,countB=0;
   long long int hist[256]={0},c_hist[256]={0},sum=0,total=0,k=0;
   int **mtrx,element,i=0,j=0,opt_th,c=0,row=0,col=0;
   double meanDiff,meanA,meanB,sdA,sdB,nP,d_dash,cpu_time_used,nPmin;
-  start=clock();
   FILE *fp,*fp1;
   fp=fopen(argv[1],"r");
   fp1=fopen("res.txt","w");
   which_file( &row, &col, argv[1] );
   mtrx=matrix(row,col);
+  clock_t start,end;
+  start=clock();
   while(fscanf(fp,"%d",&element)==1 && i<row )
     {
       if(j==col){
