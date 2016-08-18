@@ -9,22 +9,33 @@ Date: 17/08/2016
 #include<stdlib.h>
 #include<math.h>
 
+//Declaring functions
 int **matrix(int ,int );
 void which_file(int *,int *,char *);
 int *new_element(int, int*);
 
 int main(int argc,char *argv[]){
+  //Declaring variables
   unsigned long long int countA=0,countB=0;
   long long int hist[256]={0},c_hist[256]={0},sum=0,total=0,k=0;
-  int **mtrx,element,i=0,j=0,opt_th,c=0,row=0,col=0;
+  int **mtrx,**clusA,**clusB,element,i=0,j=0,opt_th,c=0,row=0,col=0;
   double meanDiff,meanA,meanB,sdA,sdB,nP,d_dash,cpu_time_used,nPmin;
+  
+  //fp opens the data file to be operated on
   FILE *fp,*fp1;
   fp=fopen(argv[1],"r");
+
+  //fp1 to write in res.txt file the optimum threshold
   fp1=fopen("res.txt","w");
   which_file( &row, &col, argv[1] );
   mtrx=matrix(row,col);
+
+  //variables to count time taken in the process
   clock_t start,end;
+
+  //time tracking starts
   start=clock();
+  printf("Reading the input data.......\n");
   while(fscanf(fp,"%d",&element)==1 && i<row )
     {
       if(j==col){
@@ -36,12 +47,16 @@ int main(int argc,char *argv[]){
       j++;
   }
   end=clock();
- fprintf(fp1,"Time taken in part A: %lf\n",(double)(end-start)/CLOCKS_PER_SEC); 
-  printf("Enter the choice for method \n 1. Iterative \n2.Histogram\n");
+  printf("Data read in %lf\n",(double)(end-start)/CLOCKS_PER_SEC); 
+  fprintf(fp1,"Time taken in part A: %lf ms\n",(double)(end-start)/CLOCKS_PER_SEC);
+
+  //the file is read and stored in a 2d_matrix
+  printf("Enter the choice for method \n 1. Iterative \n 2.Histogram\n");
   nPmin=10;
   scanf("%d",&c);
   clock_t end1,start1;
   if(c==1){
+    printf("Performing iterative thresholding .. . .");
     start1=clock();
     FILE *out;
     out=fopen("result.dat","w");
@@ -52,6 +67,7 @@ int main(int argc,char *argv[]){
 	for(  k=0; k<col; k++ ){
 	  if(mtrx[j][k]<=i){
 	    meanA+=mtrx[j][k];
+	    //append(clusA,mtrx[j][k]);
 	    countA++;
 	  }
 	  else{
@@ -61,11 +77,13 @@ int main(int argc,char *argv[]){
 	}
       }
       if(!countA)
-	countA=1;
+	meanA=0;
+      else
+	meanA/=countA;
       if(!countB)
-	countB=1;
-      meanA/=countA;
-      meanB/=countB;
+	meanB=0;
+      else
+	meanB/=countB;
       for(j=0; j<row; j++){
 	for( k=0; k<col; k++ ){
 	  if(mtrx[j][k]<=i){
@@ -88,8 +106,9 @@ int main(int argc,char *argv[]){
       fprintf(out,"%d\t %lf\t %lf\n",i,d_dash,nP);
     }
     end1=clock();
+    printf("\nThresholding done in:%lf ms\n", (double)(end1-start1)/CLOCKS_PER_SEC );
     fprintf(fp1,"\nOptimum Threshold is of :%d\n",opt_th);
-    fprintf(fp1,"\nTime taken for part B:%lf\n", (double)(end1-start1)/CLOCKS_PER_SEC );
+    fprintf(fp1,"\nTime taken for part B:%lf ms\n", (double)(end1-start1)/CLOCKS_PER_SEC );
     char *commands2[] = {"set title \"Threshold vs Discriminative Index\"", "set xrange[0:254]", "set yrange[0:6]", "plot 'result.dat' using 1:2 with lines"};
 	char *commands1[] = {"set title \"Threshold vs N_Ratio\"", "set xrange[0:254]", "set yrange[0:18000]", "plot 'result.dat' using 1:3 with lines", };
 	char *commands3[] = {"set title \"Discriminative Index vs N_Ratio\"", "set xrange[0:6]", "set yrange[0:18000]", "plot 'result.dat' using 2:3 with lines"};
@@ -106,6 +125,7 @@ int main(int argc,char *argv[]){
   }
     //To calculate the Threshold by Histogram and Cumulative Histogram
   else{
+    printf("Thresholding by histogram method.......");
     clock_t end2,start2;
     nPmin=100;
     start2=clock();
@@ -123,7 +143,7 @@ int main(int argc,char *argv[]){
       meanB=sum-meanA;
       if(c_hist[i]==0 || c_hist[i]==total){
 	c_hist[i]=-1;
-	meanA=0;
+	hist[i]=0;
       }
       meanA/=c_hist[i];
       total=row*col;
@@ -149,6 +169,7 @@ int main(int argc,char *argv[]){
       fprintf(out1,"%d\t %lf\t %lf\n",i,d_dash,nP);
     }
     end2=clock();
+     printf("\nThresholding done in:%lf ms\n", (double)(end2-start2)/CLOCKS_PER_SEC );
     fprintf(fp1,"\nTime taken for part C:%lf\n", (double)(end2-start2)/CLOCKS_PER_SEC );
     fprintf(fp1,"\nOptimum Threshold is of :%d\n",opt_th);
     char *commands2[] = {"set title \"Threshold vs Discriminative Index\"", "set xrange[0:254]", "set yrange[0:6]", "plot 'result1.dat' using 1:2 with lines"};
