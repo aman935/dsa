@@ -1,3 +1,9 @@
+/***********************************************
+Name: Aman Singh
+Roll: B15207
+Purpose: IC250 Assignment 02 - Towers of Hanoi  -Recursive
+Date: 25/08/2016
+***********************************************/
 #include<stdio.h>
 
 void DiscMove(int,char,char,char,int *);

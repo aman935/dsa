@@ -1,3 +1,9 @@
+/***********************************************
+Name: Aman Singh
+Roll: B15207
+Purpose: IC250 Assignment 02 - Towers of Hanoi  
+Date: 25/08/2016
+***********************************************/
 #include<stdio.h>
 #include<glib.h>
 #include<math.h>
