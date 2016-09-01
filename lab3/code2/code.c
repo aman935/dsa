@@ -9,11 +9,11 @@ struct node{
 void create();
 void push();
 int pop();
-//void display();
-//void enq();
+void displayQ(); 
 void menu();
 void deQ();
 void enQ();
+void dump(int,int);
 int main(){
   int n,d,i,choice;
   create();
@@ -24,28 +24,44 @@ int main(){
     scanf("%d",&d);
     push(1,d);
   }
+  dump(1,2);
   while(1){
   menu();
   scanf("%d",&choice);
   if(choice==1){
     printf("Enter the element to be added :");
     scanf("%d",&d);
-    push(1,d);
-     while(stack1!=NULL) { 
-     push(2,pop(1)); 
-   }
+    enQ(d);
+    
   }
-  else if(choice==2){
-    while(stack1!=NULL) { 
-     push(2,pop(1)); 
-   }
-    printf("The element %d is removed \n",pop(2));
-  }
+  else if(choice==2)
+    deQ();
+  else if (choice==3) 
+    displayQ();
   else return 0;}
   /* while(stack1!=NULL) {  */
   /*    push(2,pop(1));  */
   /*  }  */
   //display();
+}
+void displayQ(){
+  temp=stack2;
+  printf("The Queue is: \n");
+  while (temp!=NULL) {
+    printf(" %d  <-  ", temp->data);
+    temp=temp->next;
+  }
+  printf("\n");
+}
+void dump(int a,int b){
+  if(a==1&&b==2){
+    while(stack1!=NULL) { 
+      push(2,pop(1)); 
+   } 
+  }
+  else while(stack2!=NULL) { 
+     push(1,pop(2)); 
+   }
 }
 void deQ(){
   if(stack2!=NULL)
@@ -64,21 +80,16 @@ void enQ(int k){
 }
 
 void menu(){
-  printf("Enter the choice for the Queue\n1. Enqueue (append element)\n2. Dequeue (remove first element)\n3.Exit\n");}
+  printf("Enter the choice for the Queue\n1. Enqueue (append element)\n2. Dequeue (remove first element)\n3. Display\n4. Exit\n");}
 
 void create(){
   stack1=NULL;
   stack2=NULL;
 }
 
-/* void display(){ */
-/*   temp=stack2; */
-/*   while (temp!=NULL) { */
-/*     printf(" %d  <-  ", temp->data); */
-/*     temp=temp->next; */
-/*   } */
-/*   printf("\n"); */
-/* } */
+void display(){
+  
+}
 
 int pop(int choice){
   int d;
