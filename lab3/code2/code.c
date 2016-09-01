@@ -14,6 +14,7 @@ void menu();
 void deQ();
 void enQ();
 void dump(int,int);
+
 int main(){
   int n,d,i,choice;
   create();
@@ -25,6 +26,7 @@ int main(){
     push(1,d);
   }
   dump(1,2);
+  displayQ();
   while(1){
   menu();
   scanf("%d",&choice);
@@ -36,23 +38,19 @@ int main(){
   }
   else if(choice==2)
     deQ();
-  else if (choice==3) 
-    displayQ();
   else return 0;}
-  /* while(stack1!=NULL) {  */
-  /*    push(2,pop(1));  */
-  /*  }  */
-  //display();
 }
+
 void displayQ(){
   temp=stack2;
-  printf("The Queue is: \n");
+  printf("\nThe Queue is: \n");
   while (temp!=NULL) {
     printf(" %d  <-  ", temp->data);
     temp=temp->next;
   }
   printf("\n");
 }
+
 void dump(int a,int b){
   if(a==1&&b==2){
     while(stack1!=NULL) { 
@@ -63,12 +61,15 @@ void dump(int a,int b){
      push(1,pop(2)); 
    }
 }
+
 void deQ(){
   if(stack2!=NULL)
      printf("The element %d is dQ'ed \n",pop(2));
   else
     printf("Stack is empty\n");
+  displayQ();
 }
+
 void enQ(int k){
   if(stack1==NULL&&stack2!=NULL){
     dump(2,1);
@@ -77,18 +78,15 @@ void enQ(int k){
   else if(stack2==NULL)
     push(2,k);
   dump(1,2);
+  displayQ();
 }
 
 void menu(){
-  printf("Enter the choice for the Queue\n1. Enqueue (append element)\n2. Dequeue (remove first element)\n3. Display\n4. Exit\n");}
+  printf("Enter the choice for the Queue\n1. Enqueue (append element)\n2. Dequeue (remove first element)\n3. Exit\n");}
 
 void create(){
   stack1=NULL;
   stack2=NULL;
-}
-
-void display(){
-  
 }
 
 int pop(int choice){
@@ -102,7 +100,7 @@ int pop(int choice){
   if(choice==1){
     free(stack1);
     stack1=temp;
-    }
+  }
   else {
     free(stack2);
     stack2=temp;
