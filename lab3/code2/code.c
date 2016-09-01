@@ -66,7 +66,7 @@ void deQ(){
   if(stack2!=NULL)
      printf("The element %d is dQ'ed \n",pop(2));
   else
-    printf("Stack is empty\n");
+    printf("Queue is empty\n");
   displayQ();
 }
 
